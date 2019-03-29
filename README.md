@@ -149,6 +149,25 @@ git clone git@github.com:macrofex/crudgen.git
 
 ## Usage
 
+After cloning this repo, define in the `/resources/models.edn` one or more models as illustrated above, then,
+
+```
+lein run
+```
+
+The generated files can be found in:
+
+```
+/output/{model-name}
+```
+
+In addition to generating files which can be copied and used directly within your Luminus project, the tool outputs text
+
+
+```
+Add the following content to the identified files.
+
+```
 
 
 
@@ -156,6 +175,6 @@ git clone git@github.com:macrofex/crudgen.git
 
 ## License
 
-Copyright © 2019 MACFOFEX LLC
+Copyright © 2019 MACROFEX LLC
 
 Distributed under the Eclipse Public License either version 1.0 or any later version.
