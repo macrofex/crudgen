@@ -1,0 +1,32 @@
+{% start-tag-brace %} extends 'app.html' {% end-tag-brace %}
+{% verbatim %}
+{% block content %}
+{% endverbatim %}
+
+
+<div class='row'>
+  <div class='col-md-8'>
+    <h1>New {{model.name|capitalize}}</h1>
+
+    <form action="/{{model.model-file-name}}/create" method="post">
+
+      {% start-tag-brace %} csrf-field {% end-tag-brace %}
+
+      {% for f in model.fields %}
+      <div class='form-group'>
+        <label for='{{f.name}}'>{{f.label}}</label>
+        <input  id='{{f.name}}' name='{{f.name}}' class='form-control form-control-lg' type='{{f.type}}'></input>{% if f.required %}
+           {% start-tag-brace %} if errors.last_name {% end-tag-brace %}
+           <div class="text-danger">{% start-encoded-braces %}errors.{{f.name}}|join{% end-encoded-braces %}</div>
+           {% start-tag-brace %} endif {% end-tag-brace %}{% endif %}
+      </div> {% endfor %}
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+</div>
+
+{% start-tag-brace %} script "/js/{{model.model-file-name}}.js" {% end-tag-brace %}
+
+{% verbatim %}
+{% endblock %}
+{% endverbatim %}

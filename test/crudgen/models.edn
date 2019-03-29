@@ -1,0 +1,70 @@
+{
+
+ :staff {
+         :name "Staff"
+         :plural "staffs"
+         :generate false
+     :fields [
+              {:name "id"  :key true :label "id" :type "integer" :required false}
+              {:name "first_name" :key false  :label "First Name" :type "text" :required true}
+              {:name "middle_name" :key false  :label "Middle Name" :type "text" :required false}
+              {:name "last_name" :key false  :label "Last Name" :type "text" :required true}
+              {:name "email"  :key false :label "Email" :type "enail" :required false}
+              {:name "home_phone"  :key false :label "Home Phone" :type "text" :required false}
+              {:name "mobile_phone" :key false  :label "Mobile Phone" :type "text" :required false}
+              {:name "street1" :key false  :label "Street 1" :type "text" :required false}
+              {:name "street2" :key false  :label "Street 2" :type "text" :required false}
+              {:name "city" :key false  :label "City" :type "text" :required false}
+              {:name "state" :key false  :label "State" :type "text" :required false}
+              {:name "zip_code" :key false  :label "Zip Code" :type "text" :required false}
+              ]
+         }
+
+ :task {
+        :name "Task"
+        :generate false
+        :plural "tasks"
+         :fields [
+                 {:name "id" :key true, :label "id" :type "integer" :required false}
+                 {:name "name" :key false  :label "Name" :type "string" :required true}
+                 {:name "description" :key false :label "Description" :type "string" :required false}
+                 ]
+        }
+
+ :location {
+        :name "Location"
+        :generate false
+        :plural "locations"
+         :fields [
+                 {:name "id" :key true, :label "id" :type "integer" :required false}
+                 {:name "name" :key false  :label "Name" :type "string" :required true}
+                 {:name "description" :key false :label "Description" :type "string" :required false}
+                 ]
+        }
+
+ :task_category {
+                 :name "task_category"
+        :generate false
+        :plural "task_categories"
+         :fields [
+                 {:name "id" :key true, :label "id" :type "integer" :required false}
+                 {:name "name" :key false  :label "Name" :type "string" :required true}
+                 {:name "description" :key false :label "Description" :type "string" :required false}
+                 ]
+        }
+
+  :shift_template {
+        :name "staff_availability"
+        :generate true
+        :plural "staff_availabilities"
+         :fields [
+                 {:name "id" :key true, :label "id" :type "integer" :required true}
+                 {:name "staff_id" :key false  :label "Staff ID" :type "integer" :required true}
+                 {:name "weekday" :key false  :label "Weekday" :type "integer" :required true}
+                 {:name "start" :key false  :label "Weekday" :type "date" :required false}
+                 {:name "end" :key false  :label "Weekday" :type "date" :required false}
+                 ]
+        }
+
+
+ }

@@ -1,0 +1,37 @@
+{% start-tag-brace %} extends 'app.html' {% end-tag-brace %}
+{% verbatim %}
+{% block content %}
+{% endverbatim %}
+  <h2>Index - {{model.name}}</h2>
+
+  <table class='table'>
+    <thead>
+      <tr>{% for f in model.model-nk-fields %}
+        <td>{{f.name}}</td>{% endfor %}
+        <td>Actions</td>
+      </tr>
+    </thead>
+    <tbody>
+      {% verbatim %}{% for o in collection %}{% endverbatim %}
+      <tr>{% for f in model.model-nk-fields %}
+        <td>
+          {% start-encoded-braces %}o.{{f.name}}{% end-encoded-braces%}
+        </td>{% endfor %}
+        <td>
+          Actions...
+        </td>
+      </tr>
+     {% verbatim %} {% endfor %} {% endverbatim %}
+    </tbody>
+  </table>
+
+  <div class='row'>
+    <div class='col-md-6'>
+      <a href="/{{model.model-file-name}}/new" class='btn btn-primary btn-lg'>Add</a>
+    </div>
+  </div>
+
+{% start-tag-brace %} script "/js/{{model.model-file-name}}.js" {% end-tag-brace %}
+{% verbatim %}
+{% endblock %}
+{% endverbatim %}

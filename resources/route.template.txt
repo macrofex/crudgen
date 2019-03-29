@@ -1,0 +1,73 @@
+(ns amw.routes.{{model.model-ns-name}}
+(:require [amw.layout :as layout]
+            [amw.db.core :as db]
+            [compojure.core :refer [defroutes GET POST PUT]]
+            [ring.util.response :refer [redirect]]
+            [ring.util.http-response :as response]
+            [struct.core :as st]
+            [ring.middleware.anti-forgery :as af]
+            [ring.middleware.anti-forgery.strategy :as strategy]
+            [compojure.coercions :refer [as-int]]
+            [clojure.java.io :as io])
+  )
+
+;;
+;; http://funcool.github.io/struct/latest/#quick-start
+;;
+(def {{model.model-ns-name}}-schema
+  {
+  {% for f in model.fields %} {% if f.required %}
+     :{{f.name}} [[st/required :message "You must provide {{f.label}}."] [st/string]] {% else %}
+     :{{f.name}} [st/string]{% endif %} {% endfor %}
+   ;; examples of validations
+   ;; :home_phone [[st/min-count 10 :message "Invalid Home phone number. Must have 10 digits or more."]]
+   ;; :zipcode [[st/max-count 9 :message "Invalid Zip Code. Cannot have more than 9 digits"]]
+   })
+
+(defn index-action [request]
+  (let [{{model.model-ns-name-plural}} (db/get-{{model.model-ns-name-plural}})]
+    (layout/render request "{{model.name|lower}}/index.html" { :collection {{model.model-ns-name-plural}}  })
+    )
+  )
+
+(defn new-action [request]
+  (layout/render request "{{model.model-file-name}}/new.html" {:username "Some value"}))
+
+
+(defn create-action [request]
+  (do
+    (db/create-{{model.model-ns-name}}! (:params request))
+    (redirect (str "/{{model.model-file-name}}"))
+   )
+  )
+
+(defn edit-action [id]
+  (let [{{model.model-ns-name}} (db/get-{{model.model-ns-name}} {:id id})]
+    (layout/render {:params {:id id}} "{{model.model-file-name}}/edit.html" {:{{model.model-ns-name}} {{model.model-ns-name}}} )
+    )
+  )
+
+(defn update-action [raw-request]
+  (let [request (:params raw-request)
+        validated-request (st/validate request {{model.model-ns-name}}-schema)
+        validation-result (first validated-request)
+        {{model.model-ns-name}} (second validated-request)]
+    (if (nil? validation-result)
+      (do
+        (db/update-{{model.model-ns-name}}! {{model.model-ns-name}})
+        (redirect (str "/{{model.model-file-name}}"))
+        )
+      (do
+        (layout/render {:params {:id (:id {{model.model-ns-name}}  ) } } "{{model.model-file-name}}/edit.html" {:{{model.model-ns-name}} {{model.model-ns-name}} :errors validation-result}  )
+       )
+      )
+    )
+  )
+
+(defroutes {{model.model-ns-name}}-routes
+  (GET   "/{{model.model-file-name}}"           request (index-action request))
+  (GET   "/{{model.model-file-name}}/new"       request (new-action request))
+  (GET   "/{{model.model-file-name}}/:id/edit"  [id :<< as-int] (edit-action id))
+  (POST  "/{{model.model-file-name}}/update"    request (update-action request))
+  (POST  "/{{model.model-file-name}}/create"    request (create-action request))
+  )
